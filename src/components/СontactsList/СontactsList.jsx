@@ -6,7 +6,7 @@ import { ContactListItem } from './ContactListItem ';
 
 export const ContactList = () => {
   const visibleContacts = useSelector(selectVisibleContacts);
-
+  
   return (
     <List>
       {visibleContacts.map(contact => (

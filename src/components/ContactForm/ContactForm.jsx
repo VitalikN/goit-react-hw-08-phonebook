@@ -1,4 +1,3 @@
-import shortid from 'shortid';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import React, { useState } from 'react';
 import { Form, Btn, Input, Label } from './ContactForm.styled';
@@ -12,32 +11,31 @@ export const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectors.selectContacts);
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
 
   const handleSubmit = evt => {
     evt.preventDefault();
     const newContact = {
-      id: shortid(),
       name,
-      phone,
+      number,
     };
     if (
       contacts.find(contact => contact.name === newContact.name) ||
-      contacts.find(contact => contact.phone === newContact.phone)
+      contacts.find(contact => contact.number === newContact.number)
     ) {
       return Notify.failure(
-        `${newContact.name} ${newContact.phone} is already in contacts.
-        Please choose other name or phone.`,
+        `${newContact.name} ${newContact.number} is already in contacts.
+        Please choose other name or number.`,
         {
           position: 'center-center',
           timeout: 1500,
         }
       );
     }
-
+    console.log(newContact);
     dispatch(addContact(newContact));
     setName('');
-    setPhone('');
+    setNumber('');
   };
   const handleChange = evt => {
     const { name, value } = evt.currentTarget;
@@ -45,8 +43,8 @@ export const ContactForm = () => {
       case 'name':
         setName(value);
         break;
-      case 'phone':
-        setPhone(value);
+      case 'number':
+        setNumber(value);
         break;
       default:
         break;
@@ -72,10 +70,10 @@ export const ContactForm = () => {
           Number
           <Input
             type="tel"
-            name="phone"
-            value={phone}
+            name="number"
+            value={number}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            title="phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             onChange={handleChange}
           />

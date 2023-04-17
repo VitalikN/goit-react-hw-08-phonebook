@@ -10,6 +10,7 @@ export const ContactListItem = ({ contact }) => {
   const handleDelete = contactId => {
     dispatch(removeContact(contactId));
   };
+
   return (
     <Item>
       <Text>
