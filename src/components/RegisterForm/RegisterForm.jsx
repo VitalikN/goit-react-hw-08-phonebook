@@ -26,6 +26,7 @@ export const RegisterForm = () => {
       }}
       validationSchema={FormikSchema}
       onSubmit={(values, { resetForm }) => {
+        console.log(values);
         dispatch(register(values));
 
         resetForm();
