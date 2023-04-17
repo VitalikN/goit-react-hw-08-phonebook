@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Text, Title } from './Home.styled';
+import { Container, Text, Title } from './contacts.styled';
 import {
   selectContacts,
   selectError,
@@ -11,7 +11,7 @@ import { ContactList } from 'components/СontactsList/СontactsList';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/operations';
 
-export const Contacts = () => {
+const Contacts = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const isLoading = useSelector(selectIsLoading);
@@ -39,3 +39,4 @@ export const Contacts = () => {
     </Container>
   );
 };
+export default Contacts;
