@@ -5,7 +5,6 @@ import { logOut } from 'redux/auth/auth-operations';
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
-  console.log(user);
   return (
     <div>
       <p>Welcome, {user.email}</p>
