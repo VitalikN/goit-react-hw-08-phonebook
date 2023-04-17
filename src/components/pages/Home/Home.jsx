@@ -1,7 +1,5 @@
 import { Container, Title } from './Home.styled';
 
-// import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
-
 export const Home = () => {
   // const contacts = useSelector(selectContacts);
   // const isLoading = useSelector(selectIsLoading);
@@ -10,9 +8,9 @@ export const Home = () => {
   return (
     <Container>
       <Title>Phonebook</Title>
-      {/* <ContactForm />
+      {/* <ContactForm /> */}
       <Title>Contacts</Title>
-      {contacts.length > 0 ? (
+      {/* {contacts.length > 0 ? (
         <>
           <Filter />
           <ContactList />
