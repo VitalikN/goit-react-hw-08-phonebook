@@ -6,13 +6,13 @@ import { Register } from './pages/Register/Register';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchContacts } from 'redux/contacts/operations';
+import { refreshUser } from 'redux/auth/auth-operations';
 
 export function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
   return (
