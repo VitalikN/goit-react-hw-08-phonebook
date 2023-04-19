@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { removeContact } from 'redux/contacts/operations';
 import { useDispatch } from 'react-redux';
-import { Item, Text, Btn } from './ContactList.styled';
-import { BsFillPersonXFill } from 'react-icons/bs';
+import { Box, Button, ListItem, Typography } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export const ContactListItem = ({ contact }) => {
   const dispatch = useDispatch();
@@ -10,16 +10,41 @@ export const ContactListItem = ({ contact }) => {
   const handleDelete = contactId => {
     dispatch(removeContact(contactId));
   };
-
+  const { id, name, number } = contact;
   return (
-    <Item>
-      <Text>
-        {contact.name}: <span> {contact.number}</span>
-      </Text>
-      <Btn type="button" onClick={() => handleDelete(contact.id)}>
-        <BsFillPersonXFill />
-      </Btn>
-    </Item>
+    <ListItem
+      key={id}
+      sx={{
+        pb: 0,
+        paddingX: 0,
+        display: { xs: 'flex' },
+        flexDirection: 'column',
+      }}
+    >
+      <Box
+        component="div"
+        sx={{ display: { xs: 'flex' }, alignItems: 'center', width: '100%' }}
+      >
+        <Box
+          component="div"
+          sx={{
+            display: { xs: 'flex' },
+            flexWrap: 'wrap',
+            flexGrow: 1,
+          }}
+        >
+          <Typography variant="span" sx={{ mr: 1, flexGrow: 1 }}>
+            {name}
+          </Typography>
+          <Typography variant="span" sx={{ mr: 1 }}>
+            {number}
+          </Typography>
+        </Box>
+        <Button type="button" onClick={() => handleDelete(contact.id)}>
+          <ClearIcon color="secondary" />
+        </Button>
+      </Box>
+    </ListItem>
   );
 };
 ContactListItem.prototype = {

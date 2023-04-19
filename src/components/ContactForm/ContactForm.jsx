@@ -1,30 +1,34 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import React, { useState } from 'react';
-import { Form, Btn, Input, Label } from './ContactForm.styled';
+import React from 'react';
 
-import { BsFillPersonPlusFill } from 'react-icons/bs';
+import * as Yup from 'yup';
+import 'yup-phone-lite';
+
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { addContact } from 'redux/contacts/operations';
 import * as selectors from '../../redux/contacts/selectors';
+import { Formik, Form, Field } from 'formik';
+import { Box, Button } from '@mui/material';
+import { TextField } from 'formik-mui';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+
+const SubmitSchema = Yup.object().shape({
+  name: Yup.string().required('Enter contact name'),
+  number: Yup.string().phone('UA').required('Enter phone number'),
+});
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectors.selectContacts);
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
 
-  const handleSubmit = evt => {
-    evt.preventDefault();
-    const newContact = {
-      name,
-      number,
-    };
+  const handleSubmit = newContact => {
+    const { name: newName, number: newNumber } = newContact;
     if (
-      contacts.find(contact => contact.name === newContact.name) ||
-      contacts.find(contact => contact.number === newContact.number)
+      contacts.find(({ name }) => name === newName) ||
+      contacts.find(({ number }) => number === newNumber)
     ) {
       return Notify.failure(
-        `${newContact.name} ${newContact.number} is already in contacts.
+        `${newName} ${newNumber} is already in contacts.
         Please choose other name or number.`,
         {
           position: 'center-center',
@@ -32,58 +36,57 @@ export const ContactForm = () => {
         }
       );
     }
-    console.log(newContact);
+
     dispatch(addContact(newContact));
-    setName('');
-    setNumber('');
-  };
-  const handleChange = evt => {
-    const { name, value } = evt.currentTarget;
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        break;
-    }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <div>
-        <Label>
-          Name
-          <Input
-            type="text"
+    <Formik
+      initialValues={{
+        name: '',
+        number: '',
+      }}
+      validationSchema={SubmitSchema}
+      onSubmit={(values, { resetForm }) => {
+        handleSubmit({
+          ...values,
+        });
+        resetForm();
+      }}
+    >
+      <Form autoComplete="off">
+        <Box marginY={1} sx={{ width: 280 }}>
+          <Field
+            component={TextField}
+            type="name"
+            label="Name"
             name="name"
-            value={name}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            onChange={handleChange}
+            size="small"
+            color="secondary"
+            fullWidth
           />
-        </Label>
-        <Label>
-          Number
-          <Input
+        </Box>
+        <Box marginY={1} sx={{ width: 280 }}>
+          <Field
+            component={TextField}
             type="tel"
+            label="Number"
             name="number"
-            value={number}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            onChange={handleChange}
+            size="small"
+            color="secondary"
+            fullWidth
           />
-        </Label>
-      </div>
-      <div>
-        <Btn type="submit">
-          <BsFillPersonPlusFill />
-        </Btn>
-      </div>
-    </Form>
+        </Box>
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          type="submit"
+          fullWidth
+        >
+          <PersonAddAlt1Icon />
+        </Button>
+      </Form>
+    </Formik>
   );
 };

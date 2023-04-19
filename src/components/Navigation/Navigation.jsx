@@ -1,14 +1,25 @@
+import { Box, Typography } from '@mui/material';
+import { LinkStyled } from 'components/LinkStyled.styled';
 import { useAuth } from 'components/hooks/userAuth';
-import { NavLink } from 'react-router-dom';
 
 export const Navigation = () => {
   const { isLoggedIn } = useAuth();
 
   return (
-    <nav>
-      <NavLink to="/">Home</NavLink>
+    <Box sx={{ flexWrap: 'wrap', display: { xs: 'flex' }, ml: 2 }}>
+      <LinkStyled to="/">
+        <Typography variant="h6" sx={{ p: 1, mr: 1 }}>
+          Home
+        </Typography>
+      </LinkStyled>
 
-      {isLoggedIn && <NavLink to="/contacts">Contacts</NavLink>}
-    </nav>
+      {isLoggedIn && (
+        <LinkStyled to="/contacts">
+          <Typography variant="h6" sx={{ p: 1 }}>
+            Contacts
+          </Typography>
+        </LinkStyled>
+      )}
+    </Box>
   );
 };

@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
-import { Field, Form, Formik, ErrorMessage } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/auth-operations';
+import { TextField } from 'formik-mui';
+import { Box, Button } from '@mui/material';
 
 const FormikSchema = Yup.object().shape({
   name: Yup.string().required('Enter contact name'),
@@ -33,31 +35,43 @@ export const RegisterForm = () => {
       }}
     >
       <Form>
-        <label>
-          Username
+        <Box marginY={1} sx={{ width: 280 }}>
           <Field
+            component={TextField}
+            label="Username"
+            color="secondary"
+            size="small"
             type="text"
             name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            fullWidth
           />
-          <ErrorMessage component="span" name="name" />
-        </label>
+        </Box>
+        <Box marginY={1}>
+          <Field
+            component={TextField}
+            label="Email"
+            size="small"
+            color="secondary"
+            name="email"
+            type="text"
+            fullWidth
+          />
+        </Box>
 
-        <label>
-          Email
-          <Field name="email" type="text" />
-          <ErrorMessage component="span" name="email" />
-        </label>
-
-        <label>
-          Password
-          <Field type="password" name="password" />
-          <ErrorMessage component="span" name="password" />
-        </label>
-
-        <button variant="outlined" type="submit">
-          Save
-        </button>
+        <Box marginY={1}>
+          <Field
+            component={TextField}
+            label="Password"
+            size="small"
+            color="secondary"
+            type="password"
+            name="password"
+            fullWidth
+          />
+        </Box>
+        <Button variant="contained" color="secondary" type="submit" fullWidth>
+          Register
+        </Button>
       </Form>
     </Formik>
   );

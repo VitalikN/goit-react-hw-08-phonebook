@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Text, Title } from './contacts.styled';
+import { Container } from './contacts.styled';
 import {
   selectContacts,
   selectError,
@@ -10,6 +10,7 @@ import { Filter } from 'components/Filter/filter';
 import { ContactList } from 'components/СontactsList/СontactsList';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/operations';
+import { Box, Typography } from '@mui/material';
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -23,19 +24,43 @@ const Contacts = () => {
 
   return (
     <Container>
-      <Title>Phonebook</Title>
-      <ContactForm />
-      <Title>Contacts</Title>
-      {contacts.length > 0 ? (
-        <>
-          <Filter />
-          <ContactList />
-        </>
-      ) : (
-        <Text>No any contacts in phonebook</Text>
-      )}
+      <Box
+        sx={{
+          display: { xs: 'flex' },
+          alignItems: 'center',
+          flexDirection: 'column',
 
-      {isLoading && !error && <b>Request in progress...</b>}
+          justifyContent: 'space-between',
+          minWidth: '320px',
+          padding: '20px',
+
+          color: '#dcd9df',
+        }}
+      >
+        <Typography variant="h5" sx={{ p: 1.5 }}>
+          Add new contact
+        </Typography>
+        <ContactForm />
+        <Typography variant="h5" sx={{ p: 1.5 }}>
+          Contacts
+        </Typography>
+        {contacts.length > 0 ? (
+          <>
+            <Filter />
+            <ContactList />
+          </>
+        ) : (
+          <Typography variant="body1" sx={{ p: 1.5, color: '#cf71e2' }}>
+            No any contacts in phonebook
+          </Typography>
+        )}
+
+        {isLoading && !error && (
+          <Typography variant="body1" sx={{ p: 1.5, color: '#cf71e2' }}>
+            Request in progress...
+          </Typography>
+        )}
+      </Box>
     </Container>
   );
 };
