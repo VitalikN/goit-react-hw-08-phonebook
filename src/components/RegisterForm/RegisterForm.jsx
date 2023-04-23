@@ -18,6 +18,7 @@ const FormikSchema = Yup.object().shape({
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
+ 
 
   return (
     <Formik
@@ -28,7 +29,7 @@ export const RegisterForm = () => {
       }}
       validationSchema={FormikSchema}
       onSubmit={(values, { resetForm }) => {
-        console.log(values);
+        
         dispatch(register(values));
 
         resetForm();
